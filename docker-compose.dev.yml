@@ -1,0 +1,70 @@
+services:
+  app:
+    build:
+      context: .
+    container_name: fapy_app
+    networks:
+      - main
+    expose:
+      - 8000
+    volumes:
+      - ./:/app
+      - static_volume:/app/static
+      - media_volume:/app/media
+
+  database:
+    image: postgres:16
+    container_name: fapy_database
+    ports:
+      - 5432:5432
+    networks:
+      - main
+    environment:
+      - POSTGRES_DB=fapy_db
+      - POSTGRES_USER=fapy_user
+      - POSTGRES_PASSWORD=fapy_password
+    volumes:
+      - fapy_data:/var/lib/postgresql/data/
+
+  redis:
+    image: redis:7.2.3
+    container_name: fapy_redis
+    restart: always
+    networks:
+      - main
+    volumes:
+      - fapy_redis_data:/data
+    ports:
+      - 6379:6379
+
+  nginx:
+    build: nginx
+    container_name: fapy_nginx
+    restart: always
+    networks:
+      - main
+    ports:
+      - 80:80
+    volumes:
+      - static_volume:/app/static
+      - media_volume:/app/media
+
+  celery:
+    build: .
+    volumes:
+      - .:/src
+    networks:
+      - main
+    container_name: fapy_celery
+    command: celery -A app worker -l info
+    links:
+      - redis
+
+volumes:
+  fapy_data:
+  fapy_redis_data:
+  static_volume:
+  media_volume:
+
+networks:
+  main:
