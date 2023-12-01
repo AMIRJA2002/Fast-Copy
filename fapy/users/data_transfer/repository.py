@@ -10,6 +10,9 @@ class UserRepository(BR):
         self.model = model
         super(UserRepository, self).__init__(self.model)
 
+    def create(self, data):
+        return self.model.objects.create_user(**data)
+
 
 class LoginOTPRepository(RedisConnection):
 

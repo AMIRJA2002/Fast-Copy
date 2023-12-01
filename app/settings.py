@@ -33,7 +33,7 @@ ALLOWED_HOSTS = ['app']
 LOCAL_APPS = [
     'fapy.users.apps.UsersConfig',
     'fapy.common.apps.CommonConfig',
-    'fapy.messages.apps.MessagesConfig',
+    'fapy.channel_messages.apps.ChannelMessagesConfig',
 ]
 
 THIRD_PARTY_APPS = [

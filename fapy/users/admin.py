@@ -83,7 +83,10 @@ class UserAdmin(BaseUserAdmin):
 
 
 # Now register the new UserAdmin...
-admin.site.register(User, UserAdmin)
+# admin.site.register(User, UserAdmin)
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    list_display = ('id', 'phone_number', 'is_active', 'is_admin')
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
 admin.site.unregister(Group)

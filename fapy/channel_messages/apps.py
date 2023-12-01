@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class MessagesConfig(AppConfig):
+class ChannelMessagesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'fapy.messages'
+    name = 'fapy.channel_messages'
